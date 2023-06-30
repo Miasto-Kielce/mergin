@@ -1,10 +1,4 @@
- cp ./system/* /etc/systemd/system/
- systemctl daemon-reload
- systemctl enable mergin-gunicorn mergin-celery mergin-celerybeat
- systemctl restart mergin-gunicorn mergin-celery mergin-celerybeat
 
- cp ./nginx.conf /etc/nginx/conf.d/mergin.apps.kielce.eu.conf
- systemctl restart nginx
 
 #install redis
 
@@ -14,3 +8,23 @@ sudo apt update
 sudo apt install redis
 
 sudo apt install pip
+
+sudo apt install python-pip
+sudo apt install setuptools
+sudo apt install python3-setuptools
+sudo apt install iputils-ping
+sudo apt install gcc build-essential binutils cmake extra-cmake-modules libsqlite3-mod-spatialite
+
+sudo groupadd -r mergin -g 901
+sudo groupadd -r mergin-family -g 999
+sudo useradd -u 901 -r --home-dir /var/mergin --create-home -g mergin -G mergin-family -s /sbin/nologin  mergin
+
+cp ./system/* /etc/systemd/system/
+systemctl daemon-reload
+systemctl enable mergin-gunicorn mergin-celery mergin-celerybeat
+systemctl restart mergin-gunicorn mergin-celery mergin-celerybeat
+
+
+
+cp ./nginx.conf /etc/nginx/conf.d/mergin.apps.kielce.eu.conf
+systemctl restart nginx
