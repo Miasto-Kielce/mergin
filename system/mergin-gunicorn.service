@@ -1,0 +1,16 @@
+[Unit]
+Description=Mergin Gunicorn Service
+Requires=mergin-gunicorn.socket
+After=network.target mergin-gunicorn.socket
+
+[Service]
+Type=simple
+User=mergin
+Group=mergin
+WorkingDirectory=/var/mergin/server/
+EnvironmentFile=/var/mergin/server/env
+ExecStart=gunicorn --config config.py --bind unix:/run/mergin.sock application:application
+
+Restart=always
+[Install]
+WantedBy=multi-user.target

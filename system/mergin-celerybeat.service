@@ -1,0 +1,17 @@
+[Unit]
+Description=Mergin Celery Beat Service
+After=network.target
+
+[Service]
+Type=simple
+User=mergin
+Group=mergin
+PermissionsStartOnly=true
+RuntimeDirectory=celery
+RuntimeDirectoryMode=755
+WorkingDirectory=/var/mergin/server/
+EnvironmentFile=/var/mergin/server/env
+ExecStart=/bin/sh -c '${CELERY_BIN} beat -A ${CELERY_APP} --pidfile=${CELERYBEAT_PID_FILE} --logfile=${CELERYBEAT_LOG_FILE} --loglevel=${CELERY_LOG_LEVEL}'
+Restart=always
+[Install]
+WantedBy=multi-user.target

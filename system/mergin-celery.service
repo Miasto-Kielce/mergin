@@ -1,0 +1,19 @@
+[Unit]
+Description=Mergin Celery Service
+After=network.target
+
+[Service]
+Type=forking
+User=mergin
+Group=mergin
+PermissionsStartOnly=true
+RuntimeDirectory=celery
+RuntimeDirectoryMode=755
+WorkingDirectory=/var/mergin/server/
+EnvironmentFile=/var/mergin/server/env
+ExecStart=/bin/sh -c '${CELERY_BIN} -A $CELERY_APP multi start $CELERY_NODES --pidfile=${CELERY_PID_FILE} --logfile=${CELERY_LOG_FILE} --loglevel="${CELERY_LOG_LEVEL}" $CELERY_OPTS'
+ExecStop=/bin/sh -c '${CELERY_BIN} multi stopwait $CELERY_NODES --pidfile=${CELERY_PID_FILE} --logfile=${CELERY_LOG_FILE} --loglevel="${CELERY_LOG_LEVEL}"'
+ExecReload=/bin/sh -c '${CELERY_BIN} -A $CELERY_APP multi restart $CELERY_NODES --pidfile=${CELERY_PID_FILE} --logfile=${CELERY_LOG_FILE} --loglevel="${CELERY_LOG_LEVEL}" $CELERY_OPTS'
+Restart=always
+[Install]
+WantedBy=multi-user.target

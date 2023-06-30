@@ -1,0 +1,10 @@
+[Unit]
+Description=Mergin Gunicorn Socket
+
+[Socket]
+ListenStream=/run/mergin.sock
+SocketUser=www-data
+#SocketGroup=mergin
+SocketMode=777
+[Install]
+WantedBy=sockets.target
